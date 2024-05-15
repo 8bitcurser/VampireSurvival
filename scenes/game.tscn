@@ -1,0 +1,147 @@
+[gd_scene load_steps=6 format=3 uid="uid://dnh0dlcu5ljmj"]
+
+[ext_resource type="PackedScene" uid="uid://k27o1xlexv58" path="res://scenes/player.tscn" id="1_gcdbx"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_o7v71"]
+[ext_resource type="PackedScene" uid="uid://cory4a0uhsfcf" path="res://scenes/pine_tree.tscn" id="2_tcucp"]
+[ext_resource type="PackedScene" uid="uid://4pkybrjcx1qn" path="res://scenes/mob.tscn" id="3_3co2w"]
+
+[sub_resource type="Curve2D" id="Curve2D_iagrd"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -2391, -1134, 0, 0, 0, 0, 2245, -1124, 0, 0, 0, 0, 2205, 1214, 0, 0, 0, 0, -2391, 1229, 0, 0, 0, 0, -2391, -1134)
+}
+point_count = 5
+
+[node name="Game" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_o7v71")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -11
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = -1.504
+anchor_top = -1.151
+anchor_right = 1.507
+anchor_bottom = 1.238
+offset_left = 0.120117
+offset_top = -0.219971
+offset_right = 0.039917
+offset_bottom = 0.359985
+
+[node name="Player" parent="." instance=ExtResource("1_gcdbx")]
+position = Vector2(7, 0)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(-2, -3)
+scale = Vector2(1.56, 1)
+
+[node name="Path2D" type="Path2D" parent="Player"]
+position = Vector2(-7, 0)
+curve = SubResource("Curve2D_iagrd")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Player/Path2D"]
+position = Vector2(-2391, -1134)
+rotation = 0.00215703
+
+[node name="Trees" type="Node" parent="."]
+
+[node name="StaticBody2D" parent="Trees" instance=ExtResource("2_tcucp")]
+position = Vector2(-998, -281)
+
+[node name="StaticBody2D2" parent="Trees" instance=ExtResource("2_tcucp")]
+position = Vector2(-443, 239)
+
+[node name="StaticBody2D3" parent="Trees" instance=ExtResource("2_tcucp")]
+position = Vector2(-658, 341)
+
+[node name="StaticBody2D4" parent="Trees" instance=ExtResource("2_tcucp")]
+position = Vector2(550, -516)
+
+[node name="StaticBody2D5" parent="Trees" instance=ExtResource("2_tcucp")]
+position = Vector2(654, -395)
+
+[node name="StaticBody2D6" parent="Trees" instance=ExtResource("2_tcucp")]
+position = Vector2(-436, -550)
+
+[node name="StaticBody2D7" parent="Trees" instance=ExtResource("2_tcucp")]
+position = Vector2(748, -611)
+
+[node name="StaticBody2D8" parent="Trees" instance=ExtResource("2_tcucp")]
+position = Vector2(906, 214)
+
+[node name="StaticBody2D9" parent="Trees" instance=ExtResource("2_tcucp")]
+position = Vector2(281, 341)
+
+[node name="StaticBody2D10" parent="Trees" instance=ExtResource("2_tcucp")]
+position = Vector2(139, 654)
+
+[node name="StaticBody2D11" parent="Trees" instance=ExtResource("2_tcucp")]
+position = Vector2(1586, 594)
+
+[node name="StaticBody2D12" parent="Trees" instance=ExtResource("2_tcucp")]
+position = Vector2(-1657, -590)
+
+[node name="StaticBody2D13" parent="Trees" instance=ExtResource("2_tcucp")]
+position = Vector2(-1573, 378)
+
+[node name="StaticBody2D14" parent="Trees" instance=ExtResource("2_tcucp")]
+position = Vector2(-614, 775)
+
+[node name="Mobs" type="Node" parent="."]
+
+[node name="mob" parent="Mobs" instance=ExtResource("3_3co2w")]
+position = Vector2(1499, -63)
+
+[node name="mob2" parent="Mobs" instance=ExtResource("3_3co2w")]
+position = Vector2(1298, -347)
+
+[node name="mob3" parent="Mobs" instance=ExtResource("3_3co2w")]
+position = Vector2(-847, 429)
+
+[node name="mob4" parent="Mobs" instance=ExtResource("3_3co2w")]
+position = Vector2(-922, -596)
+
+[node name="mob5" parent="Mobs" instance=ExtResource("3_3co2w")]
+position = Vector2(-637, 629)
+
+[node name="mob6" parent="Mobs" instance=ExtResource("3_3co2w")]
+position = Vector2(750, 417)
+
+[node name="mob7" parent="Mobs" instance=ExtResource("3_3co2w")]
+position = Vector2(-751, -72)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.532
+autostart = true
+
+[node name="GameOver" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="GameOver"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.627451)
+
+[node name="Label" type="Label" parent="GameOver/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.5
+offset_top = -11.5
+offset_right = 43.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.917647, 0, 0, 1)
+theme_override_font_sizes/font_size = 156
+text = "Te regalaste papi"
+
+[connection signal="health_depleted" from="Player" to="." method="_on_player_health_depleted"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
